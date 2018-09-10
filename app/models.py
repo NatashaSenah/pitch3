@@ -48,7 +48,6 @@ class Review(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     pitch_id = db.Column(db.Integer)
     pitch_title = db.Column(db.String)
-    image_path = db.Column(db.String)
     pitch_review = db.Column(db.String)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
