@@ -1,8 +1,9 @@
 from flask_login import login_required, current_user
 from flask import render_template,request,redirect,url_for,abort
-from ..models import Reviews, User
+from ..models import  User
 from .forms import ReviewForm,UpdateProfile
 from .. import db,photos
+from . import main
 @main.route('/pitch/review/new/<int:id>', methods = ['GET','POST'])
 @login_required
 def new_review(id):
