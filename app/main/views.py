@@ -1,7 +1,7 @@
 from flask_login import login_required, current_user
 from flask import render_template,request,redirect,url_for,abort
-from ..models import  User
-from .forms import ReviewForm,UpdateProfile
+from ..models import  User,Pitch
+from .forms import ReviewForm,UpdateProfile,AddPitch
 from .. import db,photos
 from . import main
 import markdown2
@@ -79,3 +79,24 @@ def update_pic(uname):
         user_photo = PhotoProfile(pic_path = path,user = user)
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
+
+
+@main.route('/user/pitch', methods=['GET', 'POST'])
+def post():
+    form = AddPitch()
+    if form.validate_on_submit():
+        new_pitch = Pitch(pitch_content=form.pitch.data, user_id=current_user.id)
+        db.session.add(new_pitch)
+        db.session.commit()
+    pitch=Pitch.query.all()
+    return render_template('profile/update.html',form=form,pitch=pitch)
+#
+# @main.route('/user/pitch',methods =['GET','POST'])
+# @login_required
+# def update_pitch():
+#     form = AddPitch()
+#     if form.validate_on_submit():
+#         pitch = Pitch(pitch_content=form.pitch.data, user_id=current_user)
+#         db.session.add(pitch)
+#         db.session.commit()
+#     return render_template('profile/update.html',form =form)

@@ -9,15 +9,22 @@
                 </button>
                 <a class="navbar-brand" href="/"> Home </a>
             </div>
-            <div class="navbar-collapse collapse">
+            <!-- <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                  {% if current_user.is_authenticated %}
+
                     <li><a href="/">Pitchlist</a></li>
-                  {% else %}
-                  <li><a href="{{url_for('Home')}}"></a></li>
-                  {%endif%}
-                </ul>
-            </div>
+                </ul> -->
+                <div class="Pitchlist">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    Pitchlist
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">Pickup lines</a>
+    <a class="dropdown-item" href="/user/pitch">Interview pitch</a>
+    <a class="dropdown-item" href="#">product pitch</a>
+  </div>
+</div>
+            <!-- </div> -->
 <ul class="nav navbar-nav navbar-right">
                   {% if current_user.is_authenticated %}
                   <li><a href="{{url_for('main.update_pic',uname=current_user.username)}}">Profile</a></li>
