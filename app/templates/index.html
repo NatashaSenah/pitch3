@@ -1,0 +1,28 @@
+
+{% extends 'base.html'%}
+{% import 'macros.html' as macro%}
+
+<!-- Styles block -->
+
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+{% endblock %}
+<!-- Content block -->
+{% block content %}
+
+<div class="container">
+
+  {% if current_user.is_authenticated%}
+    <h1>Hello {{current_user.username}}</h1>
+  {% else %}
+    <h1>Hello {{title}}</h1>
+  {%endif%}
+    <form>
+        <input type="text" name="pitch_query" placeholder="Search for a Pitch" class="form-control">
+        <input type="submit"  value="Submit" class="btn btn-default">
+    </form>
+
+</div>
+
+{% endblock%}

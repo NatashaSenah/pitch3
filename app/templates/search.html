@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+{% import 'macros.html' as macro%}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <h3> Found {{ pitch| count }} matches </h3>
+            <hr>
+            <ul>
+                {{ macro.displayPitchList(pitch)}}
+            </ul>
+
+        </div>
+
+    </div>
+{% endblock %}
