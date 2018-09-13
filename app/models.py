@@ -47,11 +47,11 @@ class Role(db.Model):
 
     def __repr__(self):
         return f'User {self.name}'
-class Review(db.Model):
+class Comment(db.Model):
 
     __tablename__ = 'reviews'
     id = db.Column(db.Integer,primary_key = True)
-    pitch_content = db.Column(db.String(255),index = True)
+    pitch_title = db.Column(db.String(255),index = True)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     def save_review(self):
@@ -110,7 +110,7 @@ class UpVote(db.Model):
 
    id = db.Column(db.Integer, primary_key=True)
    id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
-   pitching_id = db.Column(db.Integer)
+   pitch_id = db.Column(db.Integer)
 
    def save_vote(self):
        db.session.add(self)
@@ -118,11 +118,11 @@ class UpVote(db.Model):
 
    @classmethod
    def get_votes(cls, id):
-       upvote = UpVote.query.filter_by(pitching_id=id).all()
+       upvote = UpVote.query.filter_by(pitch_id=id).all()
        return upvote
 
    def __repr__(self):
-       return f'{self.id_user}:{self.pitching_id}'
+       return f'{self.id_user}:{self.pitch_id}'
 
 
 class DownVote(db.Model):
@@ -130,7 +130,7 @@ class DownVote(db.Model):
 
    id = db.Column(db.Integer, primary_key=True)
    id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
-   pitching_id = db.Column(db.Integer)
+   pitch_id = db.Column(db.Integer)
 
    def save_vote(self):
        db.session.add(self)
@@ -138,11 +138,11 @@ class DownVote(db.Model):
 
    @classmethod
    def get_downvotes(cls, id):
-       downvote = DownVote.query.filter_by(pitching_id=id).all()
+       downvote = DownVote.query.filter_by(pitch_id=id).all()
        return downvote
 
    def __repr__(self):
-       return f'{self.id_user}:{self.pitching_id}'
+       return f'{self.id_user}:{self.pitch_id}'
 
 
 class PhotoProfile(db.Model):

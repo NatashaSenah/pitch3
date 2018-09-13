@@ -3,9 +3,11 @@
 ## Description
 This is a where people will be able to post their pitch and view other peoples pitch and also be able to upvote and downvote a pitch.
 ## Setup/Installation Requirements
-* One needs to create a new project for example for me it was Github using ng new github in the terminal
-* You then run the command ng serve to see where you'll be viewing the project
-* Then you run the cd github command to now be working inside the project
+* One needs to create a new project by first ensuring you are working in the virtual environment by running source virtual/bin activate command.
+* You then create your project name and create the different folders.
+* After you are done run deploy your project in heroku by first creating the app in heroku.
+* Then you input your mail addresss plus password.
+* Later deploy your projhect to heroku.
 ## Known Bugs
 Slight problem problem when trying to make the post section to be linked with it's category.
 ## Technologies Used

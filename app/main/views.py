@@ -1,7 +1,7 @@
 from flask_login import login_required, current_user
 from flask import render_template,request,redirect,url_for,abort
 from ..models import  User,Pitch
-from .forms import ReviewForm,UpdateProfile,AddPitch
+from .forms import CommentForm,UpdateProfile,AddPitch
 from .. import db,photos
 from . import main
 import markdown2
@@ -10,17 +10,17 @@ import markdown2
 @main.route('/')
 def index():
     return render_template('index.html',title='tasha')
-@main.route('/pitch/review/new/<int:id>', methods = ['GET','POST'])
+@main.route('/pitch/comment/new/<int:id>', methods = ['GET','POST'])
 @login_required
 def new_review(id):
-    form = ReviewForm()
+    form = CommentForm()
     pitch = get_pitch(id)
     if form.validate_on_submit():
         title = form.title.data
         review = form.review.data
 
         # Updated review instance
-        new_review = Review(pitch_id=pitch.id,pitch_title=title,pitch_review=review,user=current_user)
+        new_comment = Comment(pitch_id=pitch.id,pitch_title=title,pitch_comment=comment,user=current_user)
 
         # save review method
         new_review.save_review()
@@ -90,13 +90,6 @@ def post():
         db.session.commit()
     pitch=Pitch.query.all()
     return render_template('profile/update.html',form=form,pitch=pitch)
-#
-# @main.route('/user/pitch',methods =['GET','POST'])
-# @login_required
-# def update_pitch():
-#     form = AddPitch()
-#     if form.validate_on_submit():
-#         pitch = Pitch(pitch_content=form.pitch.data, user_id=current_user)
-#         db.session.add(pitch)
-#         db.session.commit()
-#     return render_template('profile/update.html',form =form)
+@main.route('/user/comment',methods=['GET','POST'])
+def comment():
+    form = form

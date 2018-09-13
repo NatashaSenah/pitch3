@@ -2,11 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,TextAreaField,SubmitField
 from wtforms.validators import Required
 
-class ReviewForm(FlaskForm):
+class CommentForm(FlaskForm):
 
- title = StringField('Review title',validators=[Required()])
+ title = StringField('Comment title',validators=[Required()])
 
- review = TextAreaField('Movie review')
+ comment = TextAreaField('Comment title')
 
  submit = SubmitField('Submit')
 class UpdateProfile(FlaskForm):
