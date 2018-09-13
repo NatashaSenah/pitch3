@@ -1,6 +1,6 @@
 from flask_login import login_required, current_user
 from flask import render_template,request,redirect,url_for,abort
-from ..models import  User,Pitch
+from ..models import  User,Pitch,Comment
 from .forms import CommentForm,UpdateProfile,AddPitch
 from .. import db,photos
 from . import main
@@ -10,41 +10,35 @@ import markdown2
 @main.route('/')
 def index():
     return render_template('index.html',title='tasha')
-@main.route('/pitch/comment/new/<int:id>', methods = ['GET','POST'])
+
+@main.route('/pitched/comment/<int:id>', methods = ['GET','POST'])
 @login_required
-def new_review(id):
+def new_comment(id):
     form = CommentForm()
-    pitch = get_pitch(id)
+    pitch = Pitch.get_pitch(id)
     if form.validate_on_submit():
-        title = form.title.data
-        review = form.review.data
+        comment = form.comment.data
 
         # Updated review instance
-        new_comment = Comment(pitch_id=pitch.id,pitch_title=title,pitch_comment=comment,user=current_user)
+        new_comment = Comment(pitch_id=id, comment_content=comment, user_id=current_user.id)
 
         # save review method
-        new_review.save_review()
-        return redirect(url_for('.pitch',id = pitch.id ))
+        new_comment.save_comment()
+    comment = Comment.get_comments(id)
+        # return redirect(url_for('.pitch', id=pitch.id ))
 
-    title = f'{pitch.title} review'
-    return render_template('new_review.html',title = title, review_form=form, pitch=pitch)
-@main.route('/review/<int:id>')
-def single_review(id):
-    review=Review.query.get(id)
-    if review is None:
-        abort(404)
-    format_review = markdown2.markdown(review.movie_review,extras=["code-friendly", "fenced-code-blocks"])
-    return render_template('review.html',review = review,format_review=format_review)
+    # title = f'{pitch.title} comments'
+    return render_template('new_comment.html', comment_form=form, pitch=pitch, comment=comment)
 
-@main.route('/user/<uname>')
-@login_required
-def profile(uname):
-    user = User.query.filter_by(username = uname).first()
-
-    if user is None:
-        abort(404)
-
-    return render_template("profile/profile.html", user = user)
+@main.route('/pitched', methods=['GET', 'POST'])
+def post():
+    form = AddPitch()
+    if form.validate_on_submit():
+        new_pitch = Pitch(pitch_content=form.pitch.data, user_id=current_user.id)
+        db.session.add(new_pitch)
+        db.session.commit()
+    pitch=Pitch.query.all()
+    return render_template('pitched.html',form=form, pitch=pitch)
 
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
@@ -81,15 +75,7 @@ def update_pic(uname):
     return redirect(url_for('main.profile',uname=uname))
 
 
-@main.route('/user/pitch', methods=['GET', 'POST'])
-def post():
-    form = AddPitch()
-    if form.validate_on_submit():
-        new_pitch = Pitch(pitch_content=form.pitch.data, user_id=current_user.id)
-        db.session.add(new_pitch)
-        db.session.commit()
-    pitch=Pitch.query.all()
-    return render_template('profile/update.html',form=form,pitch=pitch)
+
 @main.route('/user/comment',methods=['GET','POST'])
 def comment():
     form = form
