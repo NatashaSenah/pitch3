@@ -18,28 +18,37 @@ def new_comment(id):
     pitch = Pitch.get_pitch(id)
     if form.validate_on_submit():
         comment = form.comment.data
-
-        # Updated review instance
         new_comment = Comment(pitch_id=id, comment_content=comment, user_id=current_user.id)
-
-        # save review method
         new_comment.save_comment()
     comment = Comment.get_comments(id)
-        # return redirect(url_for('.pitch', id=pitch.id ))
 
-    # title = f'{pitch.title} comments'
     return render_template('new_comment.html', comment_form=form, pitch=pitch, comment=comment)
 
 @main.route('/pitched', methods=['GET', 'POST'])
 def post():
     form = AddPitch()
     if form.validate_on_submit():
-        new_pitch = Pitch(pitch_content=form.pitch.data, user_id=current_user.id)
+        new_pitch = Pitch(pitch_content=form.pitch.data,pitch_category=form.category.data)
         db.session.add(new_pitch)
         db.session.commit()
     pitch=Pitch.query.all()
     return render_template('pitched.html',form=form, pitch=pitch)
 
+@main.route('/pick', methods=['GET', 'POST'])
+def pickup():
+    pickup = Pitch.query.filter_by(pitch_category="pick-up-lines").all()
+    print(pickup)
+    return render_template('pickup.html', pitch=pickup)
+@main.route('/Interview', methods=['GET', 'POST'])
+def interview():
+    interview = Pitch.query.filter_by(pitch_category="interview").all()
+    print(interview)
+    return render_template('interview.html', pitch=interview)
+@main.route('/Product', methods=['GET', 'POST'])
+def product():
+    product = Pitch.query.filter_by(pitch_category="product").all()
+    print(product)
+    return render_template('product.html', pitch=product)
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
@@ -72,7 +81,7 @@ def update_pic(uname):
         user.profile_pic_path = path
         user_photo = PhotoProfile(pic_path = path,user = user)
         db.session.commit()
-    return redirect(url_for('main.profile',uname=uname))
+    return redirect(url_for('main.update_profile',uname=uname))
 
 
 

@@ -49,21 +49,7 @@ class Role(db.Model):
 
     def __repr__(self):
         return f'User {self.name}'
-# class Comment(db.Model):
-#
-#     __tablename__ = 'comment'
-#     id = db.Column(db.Integer,primary_key = True)
-#     pitch_title = db.Column(db.String(255),index = True)
-#     posted = db.Column(db.DateTime,default=datetime.utcnow)
-#     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-#     def save_comment(self):
-#         db.session.add(self)
-#         db.session.commit()
-#
-#     @classmethod
-#     def get_comment(cls,id):
-#         comment = Comment.query.filter_by(pitch_id=id).all()
-#         return comment
+
 class Pitch(db.Model):
     __tablename__ = 'pitches'
     id =db.Column(db.Integer,primary_key=True)
@@ -105,46 +91,7 @@ class Comment(db.Model):
    def get_comments(cls, id):
        comments = Comment.query.filter_by(pitch_id=id).all()
        return comments
-    
 
-class UpVote(db.Model):
-   __tablename__ = 'upvotes'
-
-   id = db.Column(db.Integer, primary_key=True)
-   id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
-   pitch_id = db.Column(db.Integer)
-
-   def save_vote(self):
-       db.session.add(self)
-       db.session.commit()
-
-   @classmethod
-   def get_votes(cls, id):
-       upvote = UpVote.query.filter_by(pitch_id=id).all()
-       return upvote
-
-   def __repr__(self):
-       return f'{self.id_user}:{self.pitch_id}'
-
-
-class DownVote(db.Model):
-   __tablename__ = 'downvotes'
-
-   id = db.Column(db.Integer, primary_key=True)
-   id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
-   pitch_id = db.Column(db.Integer)
-
-   def save_vote(self):
-       db.session.add(self)
-       db.session.commit()
-
-   @classmethod
-   def get_downvotes(cls, id):
-       downvote = DownVote.query.filter_by(pitch_id=id).all()
-       return downvote
-
-   def __repr__(self):
-       return f'{self.id_user}:{self.pitch_id}'
 
 
 class PhotoProfile(db.Model):

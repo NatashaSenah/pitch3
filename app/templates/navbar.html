@@ -15,9 +15,10 @@
     Pitchlist
   </button>
   <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">Pickup lines</a>
-    <a class="dropdown-item" href="#">Interview pitch</a>
-    <a class="dropdown-item" href="#">product pitch</a>
+    <a class="dropdown-item" href="{{url_for('main.post')}}">Pitch</a>
+    <a class="dropdown-item" href="{{url_for('main.pickup')}}">Pickup lines</a>
+    <a class="dropdown-item" href="{{url_for('main.interview')}}">Interview pitch</a>
+    <a class="dropdown-item" href="{{url_for('main.product')}}">product pitch</a>
   </div>
 </div>
 
@@ -31,4 +32,3 @@
                 </ul>
         </div>
     </div>
-<!-- </div> -->
